@@ -662,6 +662,15 @@ export const MainStyle = styled.div`
       width: 90%;
       position: relative;
 
+      .name2 {
+        position: absolute;
+        top: 339px;
+        background-color: #242225;
+        left: 15%;
+        color: white;
+        font-size: 12px;
+        padding: 3px 2px;
+      }
       .base {
         position: absolute;
         background-color: black;

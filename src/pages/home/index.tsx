@@ -22,6 +22,7 @@ import Close1 from "../../assets/final/close1.png";
 import Close2 from "../../assets/final/close2.png";
 import axios from "axios";
 import Censored from "../../assets/ces-removebg-preview.png";
+import { createApiImage } from "../../services/api";
 
 export const HomePage = () => {
   const {
@@ -87,7 +88,12 @@ export const HomePage = () => {
   }, [loading2]);
 
   const formatName = (name: any) => {
-    const cleanedName = name.replace(/[^a-zA-Z0-9 ]/g, "").trim();
+    if (typeof name !== "string") return "";
+
+    const cleanedName = name
+      .normalize("NFKD")
+      .replace(/[\p{P}\p{S}]/gu, "")
+      .trim();
 
     if (cleanedName.length <= 4) return cleanedName;
 
@@ -292,15 +298,27 @@ export const HomePage = () => {
             slidesOffsetAfter={35}
           >
             {user &&
-              user.visitors.map((item: any, index: any) => (
-                <SwiperSlide key={index}>
-                  <li className="item">
-                    <img src={item.profilePicUrl} alt={item.fullName} />
-                    <p className="name">{formatName(item.fullName)}</p>
-                    <p className="nick">@{formatName(item.username)}</p>
-                  </li>
-                </SwiperSlide>
-              ))}
+              user.visitors.map((item: any, index: any) => {
+                const encodeUrl = encodeURIComponent(
+                  item.profilePicUrl ?? item.profile_pic_url
+                );
+                const imageUrl = createApiImage(encodeUrl).defaults.baseURL;
+
+                return (
+                  <SwiperSlide key={index}>
+                    <li className="item">
+                      <img
+                        src={imageUrl}
+                        alt={item.fullName ?? item.full_name}
+                      />
+                      <p className="name">
+                        {formatName(item.fullName ?? item.full_name)}
+                      </p>
+                      <p className="nick">@{formatName(item.username)}</p>
+                    </li>
+                  </SwiperSlide>
+                );
+              })}
           </Swiper>
 
           <h3 className="normal">
@@ -317,6 +335,9 @@ export const HomePage = () => {
             <p className="nick"></p>
             <img src={Censored} alt="" className="censo" />
             <div className="color"></div>
+            <div className="name2">
+              {user.name.split(" ")[0]} foi aquele dia?
+            </div>
             <img src={Print1} alt="" className="imgExample" />
           </div>
 
