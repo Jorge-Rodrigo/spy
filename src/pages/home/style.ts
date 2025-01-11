@@ -668,8 +668,9 @@ export const MainStyle = styled.div`
         background-color: #242225;
         left: 15%;
         color: white;
-        font-size: 12px;
+        font-size: 11px;
         padding: 3px 2px;
+        width: 134px;
       }
       .base {
         position: absolute;
@@ -741,9 +742,11 @@ export const MainStyle = styled.div`
         right: 15%;
         top: 137px;
         color: white;
-        font-size: 11px;
+        font-size: 10px;
         width: 50%;
         z-index: 6;
+        text-align: start;
+
         @media (min-width: 400px) {
           font-size: 12px;
           right: 14%;

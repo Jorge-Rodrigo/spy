@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { iAppContext, iAppContextProps } from "./type";
 import { createApi, createApiImage } from "../../services/api";
+import axios from "axios";
 // import { api } from "../../services/api";
 // import { useNavigate } from "react-router-dom";
 
@@ -16,6 +17,22 @@ export const AppProviders = ({ children }: iAppContextProps) => {
   const [paywall, setPàywall] = useState(false) as any;
   const [nick, setNick] = useState("") as any;
 
+  const [userIp, setUserIp] = useState("");
+
+  useEffect(() => {
+    const fetchIp = async () => {
+      try {
+        const response = await axios.get("https://api.ipify.org?format=json");
+        setUserIp(response.data.ip);
+        console.log(response.data.ip);
+      } catch (error) {
+        console.error("Erro ao obter o IP:", error);
+      }
+    };
+
+    fetchIp();
+  }, []);
+
   useEffect(() => {
     if (loading2) {
       setTimeout(() => {
@@ -25,25 +42,49 @@ export const AppProviders = ({ children }: iAppContextProps) => {
     }
   }, [loading2]);
 
-  const getUser = (name: any) => {
-    setNick(name);
-    setLoading(true);
-    const api = createApi(name);
+  const getUser = async (name: any) => {
+    try {
+      if (!userIp) {
+        console.error("IP do usuário não disponível.");
+        return;
+      }
 
-    api
-      .get("")
-      .then((response) => {
-        console.log(response.data);
-        setUser(response.data);
-        const encodeUrl = encodeURIComponent(response.data.photo);
-        getImage(encodeUrl);
-        setLoading(false);
-        setConfirm(true);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
+      const verifyResponse = await axios.get(
+        `https://primary-production-aac6.up.railway.app/webhook/verify-ip?ip=${userIp}`
+      );
+      console.log(verifyResponse.data.message);
+
+      if (verifyResponse.data.message === "true") {
+        window.location.href = "https://www.google.com";
+        return;
+      }
+
+      await axios.post(
+        "https://primary-production-aac6.up.railway.app/webhook/a407facb-7716-4ca4-a320-76e91db0ed1e",
+        { ip: userIp }
+      );
+
+      setNick(name);
+      setLoading(true);
+      const api = createApi(name);
+
+      api
+        .get("")
+        .then((response) => {
+          console.log(response.data);
+          setUser(response.data);
+          const encodeUrl = encodeURIComponent(response.data.photo);
+          getImage(encodeUrl);
+          setLoading(false);
+          setConfirm(true);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error("Erro durante a verificação ou cadastro do IP:", error);
+    }
   };
 
   const getImage = (image: any) => {
