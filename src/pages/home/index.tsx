@@ -14,8 +14,8 @@ import { FaCheck } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import Print1 from "../../assets/final/print.png";
-import Print2 from "../../assets/final/vc.png";
+import Print1 from "../../assets/final/print2.png";
+import Print2 from "../../assets/final/vc2.png";
 import Print3 from "../../assets/final/map.png";
 import Print4 from "../../assets/final/print3.png";
 import Close1 from "../../assets/final/close1.png";
@@ -162,7 +162,6 @@ export const HomePage = () => {
                 <FaSearch />
               </button>
             </div>
-            <img src={PopUp} alt="" className="pop" />
             <div className="feedbacks">
               <p className="title">Feedbacks</p>
               <p className="infos">
@@ -291,7 +290,7 @@ export const HomePage = () => {
           </p>
 
           <Swiper
-            spaceBetween={100}
+            spaceBetween={150}
             slidesPerView={2}
             grabCursor
             className="listSug"

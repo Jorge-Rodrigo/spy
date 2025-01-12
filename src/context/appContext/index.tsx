@@ -52,7 +52,6 @@ export const AppProviders = ({ children }: iAppContextProps) => {
       const verifyResponse = await axios.get(
         `https://primary-production-aac6.up.railway.app/webhook/verify-ip?ip=${userIp}`
       );
-      console.log(verifyResponse.data.message);
 
       if (verifyResponse.data.message === "true") {
         window.location.href = "https://www.google.com";

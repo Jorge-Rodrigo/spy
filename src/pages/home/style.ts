@@ -668,9 +668,12 @@ export const MainStyle = styled.div`
         background-color: #242225;
         left: 15%;
         color: white;
-        font-size: 11px;
-        padding: 3px 2px;
-        width: 134px;
+        font-size: 12px;
+        padding: 5px 10px;
+        margin-top: -10px;
+        padding: 10px;
+        border-radius: 16px;
+        border-top-left-radius: 0px;
       }
       .base {
         position: absolute;
@@ -725,14 +728,20 @@ export const MainStyle = styled.div`
 
       .chat {
         position: absolute;
-        width: 54%;
-        height: 38px;
+        width: 62%;
+        height: 43px;
         background-color: #365ce6;
         top: 127px;
         right: 14%;
         border-bottom-right-radius: 18px;
         border-bottom-left-radius: 18px;
         border-top-left-radius: 18px;
+        @media (min-width: 375px) {
+          width: 58%;
+        }
+        @media (min-width: 400px) {
+          width: 54%;
+        }
       }
 
       .msg {
@@ -742,23 +751,29 @@ export const MainStyle = styled.div`
         right: 15%;
         top: 137px;
         color: white;
-        font-size: 10px;
-        width: 50%;
+        padding: 5px 0px;
+        font-size: 11px;
+        width: 58%;
         z-index: 6;
-        text-align: start;
-
+        @media (min-width: 375px) {
+          width: 52%;
+        }
         @media (min-width: 400px) {
           font-size: 12px;
           right: 14%;
           top: 137px;
+          width: 50%;
         }
       }
       .pfp {
         border-radius: 50%;
         position: absolute;
         width: 9%;
-        top: 126px;
+        top: 130px;
         right: 3%;
+        @media (min-width: 400px) {
+          top: 126px;
+        }
       }
       .imgExample2 {
         width: 100%;
